@@ -20,21 +20,21 @@ public class TripController {
     @Autowired
     CabTripServiceImpl CabTripServiceImpl;
 
-    @PostMapping(path="/tripsbyday", produces = "application/json")
+    @GetMapping(path="/tripsbyday", produces = "application/json")
     public Map<String, Integer> gettotalTripsBydate(@RequestParam(value = "pickup_date", defaultValue = "")
                                                                 String pickup_date) {
         return  CabTripServiceImpl.getTotaltripsBydate(pickup_date);
     }
 
 
-    @PostMapping(path="/tripsbymed", produces = "application/json")
+    @GetMapping(path="/tripsbymed", produces = "application/json")
     public Map<String, Integer> gettotalTripsBymedallion(
                                               @RequestParam(value = "medallions", defaultValue = "")
                                                       List<String> medallions) {
         return  CabTripServiceImpl.getTotaltripsBymedal(medallions);
     }
 
-    @GetMapping(path="/clear", produces = "application/json")
+    @PostMapping(path="/clear", produces = "application/json")
     public String cacheclear() {
         CabTripServiceImpl.clearCache();
         return "success";

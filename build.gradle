@@ -19,6 +19,8 @@ repositories {
 test {
     useJUnitPlatform()
 }
+test.onlyIf { !project.hasProperty('test') }
+
 
 dependencies {
     // This dependency is exported to consumers, that is to say found on their compile classpath.
@@ -39,4 +41,17 @@ dependencies {
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.13'
+}
+
+
+task ubarJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'software.spring.caching.CabApplication'
+    }
+    archiveClassifier = "webapp"
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    with jar
 }

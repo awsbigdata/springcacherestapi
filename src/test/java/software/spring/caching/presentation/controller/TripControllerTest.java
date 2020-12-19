@@ -40,8 +40,7 @@ class TripControllerTest {
         String uri="http://localhost:" + port + "/tripsbyday";
         MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
         map.add("pickup_date","2013-12-31" );
-
-        String response = restTemplate.postForObject(uri, map,String.class);
+        String response = restTemplate.getForObject(uri,String.class,map);
         assertNotNull(response);
     }
 
@@ -51,15 +50,17 @@ class TripControllerTest {
         String uri="http://localhost:" + port + "/tripsbymed";
         MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
         map.add("medallions","D7D598CD99978BD012A87A76A7C891B7,5455D5FF2BD94D10B304A15D4B7F2735" );
-        String response = restTemplate.postForObject(uri, map,String.class);
+        String response = restTemplate.getForObject(uri,String.class,map);
         assertNotNull(response);
     }
 
     @Test
     @Order(3)
     public void clearCache() throws Exception {
-        String uri="http://localhost:" + port + "/clear";
-        String response = restTemplate.getForObject(uri,String.class);
+        String uri="http://localhost:" + port + "/tripsbymed";
+        MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+        map.add("clear","clear" );
+        String response = restTemplate.postForObject(uri, map,String.class);
         assertEquals(response,"success");
 
     }
