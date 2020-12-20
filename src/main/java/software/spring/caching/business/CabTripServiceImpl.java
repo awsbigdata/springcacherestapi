@@ -1,15 +1,14 @@
 package software.spring.caching.business;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import software.spring.caching.model.CabTrip;
 import software.spring.caching.repo.TripRepository;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +16,9 @@ import java.util.Map;
 
 @Service
 public class CabTripServiceImpl implements CabTripService {
+
+    private Logger logger = LoggerFactory.getLogger(CabTripServiceImpl.class);
+
 
     @Autowired
     TripRepository CabTripService;
@@ -32,7 +34,6 @@ public class CabTripServiceImpl implements CabTripService {
     @Cacheable(value = "getTotaltrips", key = "#pickup_datetime")
     @Override
     public Map<String, Integer> getTotaltripsBydate(String pickup_datetime){
-
         Map<String, Integer> resultset = new HashMap<>();
         List<Object[]> results = CabTripService.findtotaltripBydate(pickup_datetime);
         for (Object[] result : results) {
@@ -40,6 +41,8 @@ public class CabTripServiceImpl implements CabTripService {
             int count = ((Number) result[1]).intValue();
             resultset.put(medal,count);
         }
+
+        logger.debug("Reading from DB");
 
       return resultset;
     }
@@ -60,6 +63,7 @@ public class CabTripServiceImpl implements CabTripService {
             int count = ((Number) result[1]).intValue();
             resultset.put(medal,count);
         }
+        logger.debug("Reading from DB");
 
         return resultset;
     }
@@ -68,6 +72,8 @@ public class CabTripServiceImpl implements CabTripService {
      * Clear all cache from cache service
      */
     public void clearCache(){
+
+        logger.debug("Clearing cache details");
         cacheManager.getCacheNames().stream()
                 .forEach(cacheName -> cacheManager.getCache(cacheName).clear());
     };
