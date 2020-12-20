@@ -21,14 +21,14 @@ public class TripController {
     CabTripServiceImpl CabTripServiceImpl;
 
     @GetMapping(path="/tripsbyday", produces = "application/json")
-    public Map<String, Integer> gettotalTripsBydate(@RequestParam(value = "pickup_date", defaultValue = "")
+    public Map<String, List<Map<String,String>>> gettotalTripsBydate(@RequestParam(value = "pickup_date", defaultValue = "")
                                                                 String pickup_date) {
         return  CabTripServiceImpl.getTotaltripsBydate(pickup_date);
     }
 
 
     @GetMapping(path="/tripsbymed", produces = "application/json")
-    public Map<String, Integer> gettotalTripsBymedallion(
+    public Map<String, List<Map<String,String>>> gettotalTripsBymedallion(
                                               @RequestParam(value = "medallions", defaultValue = "")
                                                       List<String> medallions) {
         return  CabTripServiceImpl.getTotaltripsBymedal(medallions);

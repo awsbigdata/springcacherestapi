@@ -7,10 +7,9 @@ springcacherestapi
   * Gradle 6.0
 
 # Compile & build
-  Gradle clean build 
-# Create  uber jar to deploy
-  gradle clean build ubarJar
- 
+  gradle clean build 
+# Create  a jar to deploy
+   gradle clean build bootJar  
 ## API Details   
 
 Below Get API to access trip data
@@ -25,6 +24,8 @@ http://<url>/tripsbymed
 Send a POST request to 
 http://<url>/clear
 
+
+Look for "Reading from DB" for cache miss in log
 
 You can use Amazon RDS for DB and AWS memcache for redis
 

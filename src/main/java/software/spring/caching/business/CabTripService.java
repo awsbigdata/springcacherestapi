@@ -5,7 +5,7 @@ import java.util.Map;
 
 public interface CabTripService {
 
-    public Map<String, Integer> getTotaltripsBydate(String pickup_datetime);
-    public Map<String, Integer> getTotaltripsBymedal(List<String> medallions);
+    public Map<String, List<Map<String,String>>> getTotaltripsBydate(String pickup_datetime);
+    public Map<String, List<Map<String,String>>> getTotaltripsBymedal(List<String> medallions);
     public void clearCache();
 }

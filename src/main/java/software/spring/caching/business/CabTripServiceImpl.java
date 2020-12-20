@@ -9,6 +9,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import software.spring.caching.repo.TripRepository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,17 +34,21 @@ public class CabTripServiceImpl implements CabTripService {
      */
     @Cacheable(value = "getTotaltrips", key = "#pickup_datetime")
     @Override
-    public Map<String, Integer> getTotaltripsBydate(String pickup_datetime){
-        Map<String, Integer> resultset = new HashMap<>();
+    public Map<String, List<Map<String,String>>> getTotaltripsBydate(String pickup_datetime){
+        Map<String, List<Map<String,String>>> resultset = new HashMap<>();
         List<Object[]> results = CabTripService.findtotaltripBydate(pickup_datetime);
+        List<Map<String,String>> items=new ArrayList<>();
         for (Object[] result : results) {
+            Map<String,String> item = new HashMap<>();
             String medal = (String) result[0];
-            int count = ((Number) result[1]).intValue();
-            resultset.put(medal,count);
+            String count =  result[1].toString();
+            item.put("medallion",medal);
+            item.put("trips",count);
+            items.add(item);
         }
 
         logger.debug("Reading from DB");
-
+       resultset.put("medallions",items);
       return resultset;
     }
 
@@ -54,17 +59,20 @@ public class CabTripServiceImpl implements CabTripService {
      */
     @Cacheable(value = "getTotaltrips", key = "#medallions.toString()")
     @Override
-    public Map<String, Integer> getTotaltripsBymedal(List<String> medallions){
-
-        Map<String, Integer> resultset = new HashMap<>();
+    public Map<String, List<Map<String,String>>> getTotaltripsBymedal(List<String> medallions){
+        Map<String, List<Map<String,String>>> resultset = new HashMap<>();
+        List<Map<String,String>> items=new ArrayList<>();
         List<Object[]> results = CabTripService.findtotaltripBymedallion(medallions);
         for (Object[] result : results) {
+            Map<String,String> item = new HashMap<>();
             String medal = (String) result[0];
-            int count = ((Number) result[1]).intValue();
-            resultset.put(medal,count);
+            String count =  result[1].toString();
+            item.put("medallion",medal);
+            item.put("trips",count);
+            items.add(item);
         }
         logger.debug("Reading from DB");
-
+        resultset.put("medallions",items);
         return resultset;
     }
 
