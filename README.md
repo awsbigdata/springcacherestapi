@@ -26,4 +26,9 @@ Send a POST request to
 http://<url>/clear
 
 
+You can use Amazon RDS for DB and AWS memcache for redis
 
+Add EKS for container based solutions
+
+Improvement
+ Can implement DDB+DAX for horizontal Scale and lambda for serverless solution
